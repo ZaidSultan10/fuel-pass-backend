@@ -87,6 +87,14 @@ OPERATIONS_MANAGER: Can view all orders and update order statuses
 
 JWT Token Structure
 
+{
+  "sub": "user@example.com",
+  "userId": "uuid",
+  "role": "AIRCRAFT_OPERATOR",
+  "iat": 1234567890,
+  "exp": 1234654290
+}
+
 📡 API Endpoints
 
 Authentication
