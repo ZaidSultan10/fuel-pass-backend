@@ -137,7 +137,50 @@ GET	/users/statistics	Get user statistics	Operations Manager
 
 Users Table
 
+CREATE TABLE users (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    is_active BOOLEAN,
+    role VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 Fuel Orders Table
+
+CREATE TABLE fuel_orders (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    tail_number VARCHAR(10) NOT NULL,
+    airport_icao_code VARCHAR(4) NOT NULL,
+    requested_fuel_volume DECIMAL(10,2) NOT NULL,
+    delivery_time_window_start TIMESTAMP NOT NULL,
+    delivery_time_window_end TIMESTAMP NOT NULL,
+    status VARCHAR(20) NOT NULL DEFAULT 'PENDING',
+    notes TEXT,
+    created_by UUID REFERENCES users(id),
+    updated_by UUID REFERENCES users(id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+Airport Table
+
+CREATE TABLE airports (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    icao_code VARCHAR(4) UNIQUE NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    country VARCHAR(100),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO airports (icao_code, name, country) VALUES
+    ('KJFK', 'John F. Kennedy International Airport', 'United States'),
+    ('EGLL', 'London Heathrow Airport', 'United Kingdom'),
+    ('EDDF', 'Frankfurt Airport', 'Germany'),
+    ('RJTT', 'Tokyo Haneda Airport', 'Japan'),
+    ('YSSY', 'Sydney Kingsford Smith Airport', 'Australia');
 
 🔧 Configuration
 
